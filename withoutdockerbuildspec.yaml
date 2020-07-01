@@ -1,0 +1,24 @@
+version: 0.2
+phases:
+  install:
+    runtime-versions:
+      python: 3.7
+    commands:
+      # - pip install -r ./models/requirements.txt -t ./models/
+      # - find ./models/ \( -name __pycache__ -o -name "*.pyc" \) -delete
+      # - rm -rf ./models/*.dist-info
+      - pip install --upgrade awscli
+      - pip install --upgrade boto3
+      - pip install boto3 -t ./tests/
+  build:
+    commands:
+      # - python3 -c "import os; print(os.environ['debug'], os.environ['build_env'])"
+      - python3 -W ignore -m unittest discover tests
+      - rm -rf ./models/tmp
+      - aws cloudformation package --template-file template.yaml --s3-bucket consiona-aws-sam-bucket --output-template-file packaged.yaml
+
+artifacts:
+  type: zip
+  files:
+    - packaged.yaml
+    - "**/*"
