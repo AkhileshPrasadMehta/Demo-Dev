@@ -25,27 +25,19 @@
 #         commands:
 #         - echo Build completed on `date`
 version: 0.2
+
 phases:
   install:
-    runtime-versions:
-      python: 3.7
-      docker: 18
     commands:
-      - rm -rf /var/lib/docker/*
+      - ls
+      - cd $CODEBUILD_SRC_DIR
+      - ls
       - nohup /usr/local/bin/dockerd --host=unix:///var/run/docker.sock --host=tcp://127.0.0.1:2375 --storage-driver=overlay2&
       - timeout 15 sh -c "until docker info; do echo .; sleep 1; done"
-      - echo Entering the install phase.....
-      - apt-get update -y
-      - apt-get -y install python-pip -y
-      - pip install awscli --upgrade --user
-      - pip install boto3
-      - pip install anchorecli
-    pre_build:
-      commands:
-        - echo Image repository setup started on `date`
-        - echo ECR Setup...
-        - echo Logging into AWS ECR...
-        - $(aws ecr get-login --no-include-email --region us-east-2)
-    build:
-      commands:
-        - echo Deployment started on `date`
+  pre_build:
+    commands:
+      - docker build -t helloworld .
+  build:
+    commands:
+      - docker images
+      - docker run helloworld echo "Hello, World!"
