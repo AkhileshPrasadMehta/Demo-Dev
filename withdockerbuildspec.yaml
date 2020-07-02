@@ -31,6 +31,7 @@ phases:
       python: 3.7
       docker: 18
     commands:
+      - rm -rf /var/lib/docker/*
       - nohup /usr/local/bin/dockerd --host=unix:///var/run/docker.sock --host=tcp://127.0.0.1:2375 --storage-driver=overlay2&
       - timeout 15 sh -c "until docker info; do echo .; sleep 1; done"
       - echo Entering the install phase.....
