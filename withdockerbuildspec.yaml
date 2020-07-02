@@ -3,12 +3,13 @@ phases:
     pre_build:
       commands:
         - echo Logging in to Amazon ECR...
-        #- $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
+        - $(aws ecr get-login --no-include-email --region us-east-2)
     build:
       commands:
         - echo Build started on `date`
         - echo \"Building the Training Docker image...\"
-        # - cd $CODEBUILD_SRC_DIR/$DOCKERFILE_PATH
+        - cd $CODEBUILD_SRC_DIR
+        - ls
         # - REPO=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME
         # - |
         # if docker pull $REPO:$IMAGE_TAG; then
