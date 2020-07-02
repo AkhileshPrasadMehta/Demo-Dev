@@ -12,7 +12,7 @@ phases:
         - REPO=168996373046.dkr.ecr.us-east-2.amazonaws.com/cloud-dev
         - IMAGE_TAG=latest
         - apt-get update
-        - apt install docker.io
+        - apt -y install docker.io
         - systemctl start docker
         - systemctl enable docker
         - docker --version
