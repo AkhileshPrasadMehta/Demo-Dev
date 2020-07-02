@@ -13,8 +13,6 @@ phases:
         - IMAGE_TAG=latest
         - apt-get update
         - apt -y install docker.io
-        - systemctl start docker
-        - systemctl enable docker
         - docker --version
         - ls
         - docker build -t cloud-dev .
