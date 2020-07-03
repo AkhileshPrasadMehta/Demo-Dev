@@ -11,6 +11,17 @@ model_path = os.environ["MODEL_PATH"]
 # The flask app for serving predictions
 app = flask.Flask(__name__)
 
+class ScoringService(object):
+    model = None  # Where we keep the model when it's loaded
+
+    @classmethod
+    def get_model(cls):
+        """Get the model object for this instance, loading it if it's not already loaded."""
+        if cls.model is None:
+            with open(os.path.join(model_path, 'model.pkl'), 'rb') as f:
+                cls.model = joblib.load(f)
+        return cls.model
+
 
 @app.route("/ping", methods=["GET"])
 def ping():
