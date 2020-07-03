@@ -11,7 +11,7 @@ RUN apt-get -y update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 RUN pip3 install --no-cache-dir -r /opt/program/requirements.txt
-RUN apt-get update -y && apt-get install -y dos2unix
+
 
 # Set some environment variables. PYTHONUNBUFFERED keeps Python from buffering our standard
 # output stream, which means that logs can be delivered to the user quickly. PYTHONDONTWRITEBYTECODE
@@ -27,5 +27,5 @@ ENV MODEL_PATH="/opt/ml/model"
 COPY model /opt/program
 WORKDIR /opt/program
 
-RUN dos2unix train
-RUN dos2unix serve
+RUN chmod +x train
+RUN chmod +x serve
