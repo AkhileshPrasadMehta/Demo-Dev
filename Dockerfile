@@ -26,6 +26,8 @@ ENV MODEL_PATH="/opt/ml/model"
 # Set up the program in the image
 COPY model /opt/program
 WORKDIR /opt/program
+RUN ls
 
 RUN chmod +x train
 RUN chmod +x serve
+
